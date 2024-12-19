@@ -10,12 +10,12 @@ namespace TrainMS {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Summary for MyForm
+	/// Summary for ShowRoutes
 	/// </summary>
-	public ref class MyForm : public System::Windows::Forms::Form
+	public ref class ShowRoutes : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm(void)
+		ShowRoutes(void)
 		{
 			InitializeComponent();
 			//
@@ -27,7 +27,7 @@ namespace TrainMS {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MyForm()
+		~ShowRoutes()
 		{
 			if (components)
 			{
@@ -50,19 +50,16 @@ namespace TrainMS {
 		{
 			this->SuspendLayout();
 			// 
-			// MyForm
+			// ShowRoutes
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(282, 253);
-			this->Name = L"MyForm";
-			this->Text = L"MyForm";
-			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->ClientSize = System::Drawing::Size(1213, 490);
+			this->Name = L"ShowRoutes";
+			this->Text = L"ShowRoutes";
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
-	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-	}
 	};
 }

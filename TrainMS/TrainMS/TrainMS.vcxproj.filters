@@ -15,12 +15,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyForm.cpp">
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DTRF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DTRR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowStations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditStations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowRoutes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditRoutes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyForm.h">
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DTRF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DTRR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowStations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditStations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowRoutes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditRoutes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

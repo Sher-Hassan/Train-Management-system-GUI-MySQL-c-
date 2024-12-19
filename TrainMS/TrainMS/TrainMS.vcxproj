@@ -120,16 +120,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="DTRF.cpp" />
+    <ClCompile Include="DTRR.cpp" />
+    <ClCompile Include="EditRoutes.cpp" />
+    <ClCompile Include="EditStations.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="ShowRoutes.cpp" />
+    <ClCompile Include="ShowStations.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyForm.h">
+    <ClInclude Include="DTRF.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="DTRR.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EditRoutes.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EditStations.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <FileType>Text</FileType>
+    </ClInclude>
+    <ClInclude Include="ShowRoutes.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ShowStations.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MyForm.resx">
-      <DependentUpon>MyForm.h</DependentUpon>
+    <EmbeddedResource Include="DTRF.resx">
+      <DependentUpon>DTRF.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DTRR.resx">
+      <DependentUpon>DTRR.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRoutes.resx">
+      <DependentUpon>EditRoutes.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditStations.resx">
+      <DependentUpon>EditStations.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowRoutes.resx">
+      <DependentUpon>ShowRoutes.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowStations.resx">
+      <DependentUpon>ShowStations.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
