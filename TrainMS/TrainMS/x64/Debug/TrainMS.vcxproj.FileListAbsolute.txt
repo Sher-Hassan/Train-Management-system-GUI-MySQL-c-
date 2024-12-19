@@ -1,0 +1,3 @@
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Debug\TrainMS.vcxproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Debug\TrainMS.MyForm.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Debug\TrainMS.vcxproj.GenerateResource.cache
