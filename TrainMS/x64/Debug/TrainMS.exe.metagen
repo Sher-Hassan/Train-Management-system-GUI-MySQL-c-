@@ -1,4 +1,10 @@
+  TrainMS.DTRF.resources - Embedded, ContainedInManifestFile, 
+  TrainMS.DTRR.resources - Embedded, ContainedInManifestFile, 
+  TrainMS.EditRoutes.resources - Embedded, ContainedInManifestFile, 
+  TrainMS.EditStations.resources - Embedded, ContainedInManifestFile, 
   TrainMS.Menu.resources - Embedded, ContainedInManifestFile, 
+  TrainMS.ShowRoutes.resources - Embedded, ContainedInManifestFile, 
+  TrainMS.ShowStations.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly TrainMS, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
@@ -18,6 +24,18 @@ Class TrainMS.DTRF: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class TrainMS.DTRR: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class TrainMS.EditRoutes: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class TrainMS.EditStations: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class TrainMS.ShowStations: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class TrainMS.ShowRoutes: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class TrainMS.Menu: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit

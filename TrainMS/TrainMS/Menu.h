@@ -1,6 +1,10 @@
 #pragma once
 #include "DTRF.h"
 #include "DTRR.h"
+#include "ShowStations.h"
+#include "EditStations.h"
+#include "ShowRoutes.h"
+#include "EditRoutes.h"
 namespace TrainMS {
 
 	using namespace System;
@@ -88,7 +92,6 @@ namespace TrainMS {
 			this->label1->Size = System::Drawing::Size(643, 55);
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Train Management System";
-			this->label1->Click += gcnew System::EventHandler(this, &Menu::label1_Click);
 			// 
 			// button1
 			// 
@@ -114,6 +117,7 @@ namespace TrainMS {
 			this->button3->TabIndex = 3;
 			this->button3->Text = L"Show Stations";
 			this->button3->UseVisualStyleBackColor = false;
+			this->button3->Click += gcnew System::EventHandler(this, &Menu::button3_Click);
 			// 
 			// button4
 			// 
@@ -126,6 +130,7 @@ namespace TrainMS {
 			this->button4->TabIndex = 4;
 			this->button4->Text = L"Edit Stations";
 			this->button4->UseVisualStyleBackColor = false;
+			this->button4->Click += gcnew System::EventHandler(this, &Menu::button4_Click);
 			// 
 			// button5
 			// 
@@ -162,8 +167,9 @@ namespace TrainMS {
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(384, 49);
 			this->button6->TabIndex = 6;
-			this->button6->Text = L"Show Routes";
+			this->button6->Text = L"Edit Routes";
 			this->button6->UseVisualStyleBackColor = false;
+			this->button6->Click += gcnew System::EventHandler(this, &Menu::button6_Click);
 			// 
 			// button7
 			// 
@@ -176,6 +182,7 @@ namespace TrainMS {
 			this->button7->TabIndex = 7;
 			this->button7->Text = L"EXIT";
 			this->button7->UseVisualStyleBackColor = false;
+			this->button7->Click += gcnew System::EventHandler(this, &Menu::button7_Click);
 			// 
 			// Menu
 			// 
@@ -200,20 +207,42 @@ namespace TrainMS {
 #pragma endregion
 	private: System::Void Menu_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
 	
 	
-private: System::Void button5_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
+    private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	DTRF^ dtrfForm = gcnew DTRF(); // Create an instance of DTRF
 	dtrfForm->Show(); // Show the DTRF form
 }
-private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+    private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	DTRR^ dtrrForm = gcnew DTRR(); // Create an instance of DTRR
 	dtrrForm->Show(); // Show the DTRR form
 }
-
+    private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	ShowStations^ showStationsForm = gcnew ShowStations(); // Create an instance of ShowStations
+	showStationsForm->Show(); // Show the ShowStations form
+}
+	
+    private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+	EditStations^ editStationsForm = gcnew EditStations(); // Create an instance of EditStations
+	editStationsForm->Show(); // Show the EditStations form
+}
+	
+    private: System::Void button5_Click(System::Object^ sender, System::EventArgs^ e) {
+	ShowRoutes^ showRoutesForm = gcnew ShowRoutes(); // Create an instance of ShowRoutes
+	showRoutesForm->Show(); // Show the ShowRoutes form
+}
+	
+    private: System::Void button6_Click(System::Object^ sender, System::EventArgs^ e) {
+	EditRoutes^ editRoutesForm = gcnew EditRoutes(); // Create an instance of EditRoutes
+	editRoutesForm->Show(); // Show the EditRoutes form
+}
+	
+    private: System::Void button7_Click(System::Object^ sender, System::EventArgs^ e) {
+	Application::Exit(); // Exit the application
+}
 };
 }
+
+
+
+

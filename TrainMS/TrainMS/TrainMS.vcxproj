@@ -142,7 +142,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <FileType>Text</FileType>
+      <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ShowRoutes.h">
       <FileType>CppForm</FileType>
