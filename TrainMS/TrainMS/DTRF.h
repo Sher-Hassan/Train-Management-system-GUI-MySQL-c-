@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace TrainMS {
 
 	using namespace System;
@@ -57,9 +58,12 @@ namespace TrainMS {
 			this->ClientSize = System::Drawing::Size(1213, 490);
 			this->Name = L"DTRF";
 			this->Text = L"DTRF";
+			this->Load += gcnew System::EventHandler(this, &DTRF::DTRF_Load);
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+	private: System::Void DTRF_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
 	};
 }

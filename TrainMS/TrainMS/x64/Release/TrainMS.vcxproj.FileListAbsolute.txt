@@ -1,0 +1,9 @@
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.vcxproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.DTRF.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.DTRR.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.EditRoutes.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.EditStations.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.Menu.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.ShowRoutes.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.ShowStations.resources
+C:\Users\Administrator\Desktop\Train Management System\Train-Management-system-GUI-MySQL-c-\TrainMS\TrainMS\x64\Release\TrainMS.vcxproj.GenerateResource.cache

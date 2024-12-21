@@ -107,9 +107,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -129,6 +134,7 @@
     <ClCompile Include="ShowStations.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DatabaseHelper.h" />
     <ClInclude Include="DTRF.h">
       <FileType>CppForm</FileType>
     </ClInclude>
