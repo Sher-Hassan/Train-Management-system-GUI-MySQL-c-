@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cliext/list>
+
 namespace TrainMS {
 
     using namespace System;
@@ -38,8 +40,11 @@ namespace TrainMS {
         System::Windows::Forms::TextBox^ stopOrderTextBox;
         System::Windows::Forms::Button^ deleteButton;
         System::Windows::Forms::Button^ addButton;
-        System::Windows::Forms::DataGridView^ routeDetailsDataGridView; // DataGridView for displaying route details
+        System::Windows::Forms::DataGridView^ routeDetailsDataGridView;
         SqlConnection^ conn;
+
+        System::Collections::Generic::List<int>^ routeIDs = gcnew System::Collections::Generic::List<int>();
+
 
         void InitializeComponent(void)
         {
@@ -181,206 +186,76 @@ namespace TrainMS {
             routeDetailsDataGridView->Columns["ArrivalTime"]->Width = 130;  // Arrival Time
             routeDetailsDataGridView->Columns["DepartureTime"]->Width = 130;  // Departure Time
             routeDetailsDataGridView->Columns["StopOrder"]->Width = 90;  // Stop Order
-
-            // Adjust columns to fit content
-            routeDetailsDataGridView->AutoResizeColumns();
         }
 
         void AddRouteDetailButton_Click(System::Object^ sender, System::EventArgs^ e)
         {
-            String^ routeName = routeNameTextBox->Text;
-            String^ stationID = stationComboBox->SelectedValue->ToString();
-            String^ arrivalTime = arrivalDatePicker->Value.ToString("yyyy-MM-dd HH:mm");
-            String^ departureTime = departureDatePicker->Value.ToString("yyyy-MM-dd HH:mm");
-            String^ stopOrder = stopOrderTextBox->Text;
-
-            // Check if any field is empty
-            if (routeName->Trim()->Length == 0 || stationID->Trim()->Length == 0 || stopOrder->Trim()->Length == 0)
+            if (String::IsNullOrEmpty(routeNameTextBox->Text) || String::IsNullOrEmpty(stopOrderTextBox->Text) || stationComboBox->SelectedIndex == -1)
             {
-                MessageBox::Show("All fields must be filled. Please provide values for Route Name, Station, and Stop Order.", "Violation: Empty Fields", MessageBoxButtons::OK, MessageBoxIcon::Error);
+                MessageBox::Show("Please provide all details.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
                 return;
             }
 
-            conn = gcnew SqlConnection("Server=DESKTOP-NEII4G1;Database=TrainManagementSystem;Trusted_Connection=True;");
-
-            // Query to check if the RouteName exists
-            String^ checkRouteQuery = "SELECT RouteID FROM Routes WHERE RouteName = @RouteName";
-            SqlCommand^ checkRouteCommand = gcnew SqlCommand(checkRouteQuery, conn);
-            checkRouteCommand->Parameters->AddWithValue("@RouteName", routeName);
-
-            conn->Open();
-            SqlDataReader^ reader = checkRouteCommand->ExecuteReader();
-
-            int routeID = -1;
-
-            if (reader->HasRows) // If the RouteName exists
-            {
-                reader->Read();
-                routeID = reader->GetInt32(0); // Get the existing RouteID
-            }
-            else
-            {
-                // If RouteName doesn't exist, insert a new route
-                reader->Close(); // Close reader to execute another query
-
-                String^ insertRouteQuery = "INSERT INTO Routes (RouteName) VALUES (@RouteName); SELECT SCOPE_IDENTITY();";
-                SqlCommand^ insertRouteCommand = gcnew SqlCommand(insertRouteQuery, conn);
-                insertRouteCommand->Parameters->AddWithValue("@RouteName", routeName);
-
-                routeID = Convert::ToInt32(insertRouteCommand->ExecuteScalar()); // Get the newly inserted RouteID
-            }
-
-            // Close reader after finishing
-            reader->Close();
-
-            // Validation 1: Same named routes cannot have the same named station
-            String^ checkStationQuery = "SELECT COUNT(*) FROM RouteDetails WHERE RouteID = @RouteID AND StationID = @StationID";
-            SqlCommand^ checkStationCommand = gcnew SqlCommand(checkStationQuery, conn);
-            checkStationCommand->Parameters->AddWithValue("@RouteID", routeID);
-            checkStationCommand->Parameters->AddWithValue("@StationID", stationID);
-            int stationExists = Convert::ToInt32(checkStationCommand->ExecuteScalar());
-
-            if (stationExists > 0)
-            {
-                MessageBox::Show("This station already exists for the same route. Please select a different station.", "Violation: Same Station", MessageBoxButtons::OK, MessageBoxIcon::Error);
-                conn->Close();
-                return; // Exit method if station is duplicated
-            }
-
-            // Validation 2: Arrival time cannot be ahead of departure time
-            DateTime arrival = arrivalDatePicker->Value;
-            DateTime departure = departureDatePicker->Value;
-
-            if (arrival >= departure)
-            {
-                MessageBox::Show("Arrival time cannot be ahead of or the same as the departure time.", "Violation: Arrival Time", MessageBoxButtons::OK, MessageBoxIcon::Error);
-                conn->Close();
-                return; // Exit method if arrival time is invalid
-            }
-
-            // Validation 3: Arrival and Departure time cannot be the same for the same entry
-            if (arrival == departure)
-            {
-                MessageBox::Show("Arrival and Departure times cannot be the same. Please enter different times.", "Violation: Same Time", MessageBoxButtons::OK, MessageBoxIcon::Error);
-                conn->Close();
-                return; // Exit method if arrival and departure times are the same
-            }
-
-            // Validation 4: Check for time overlap for the same RouteName
-            String^ checkTimeOverlapQuery = "SELECT COUNT(*) FROM RouteDetails RD "
-                "INNER JOIN Routes R ON RD.RouteID = R.RouteID "
-                "WHERE R.RouteName = @RouteName AND "
-                "( (RD.ArrivalTime <= @ArrivalTime AND RD.DepartureTime >= @ArrivalTime) OR "
-                "(RD.ArrivalTime <= @DepartureTime AND RD.DepartureTime >= @DepartureTime) )";
-            SqlCommand^ checkTimeOverlapCommand = gcnew SqlCommand(checkTimeOverlapQuery, conn);
-            checkTimeOverlapCommand->Parameters->AddWithValue("@RouteName", routeName);
-            checkTimeOverlapCommand->Parameters->AddWithValue("@ArrivalTime", arrivalTime);
-            checkTimeOverlapCommand->Parameters->AddWithValue("@DepartureTime", departureTime);
-
-            int timeOverlapExists = Convert::ToInt32(checkTimeOverlapCommand->ExecuteScalar());
-
-            if (timeOverlapExists > 0)
-            {
-                MessageBox::Show("The timings you entered overlap with an existing train schedule for the same route. Please adjust the timings.", "Violation: Time Overlap", MessageBoxButtons::OK, MessageBoxIcon::Error);
-                conn->Close();
-                return; // Exit method if there is a time overlap
-            }
-
-            // Proceed with adding the route detail
-            String^ insertDetailQuery = "INSERT INTO RouteDetails (RouteID, StationID, ArrivalTime, DepartureTime, StopOrder) "
-                "VALUES (@RouteID, @StationID, @ArrivalTime, @DepartureTime, @StopOrder)";
-
-            SqlCommand^ insertDetailCommand = gcnew SqlCommand(insertDetailQuery, conn);
-            insertDetailCommand->Parameters->AddWithValue("@RouteID", routeID);
-            insertDetailCommand->Parameters->AddWithValue("@StationID", stationID);
-            insertDetailCommand->Parameters->AddWithValue("@ArrivalTime", arrivalTime);
-            insertDetailCommand->Parameters->AddWithValue("@DepartureTime", departureTime);
-            insertDetailCommand->Parameters->AddWithValue("@StopOrder", stopOrder);
-
             try
             {
-                insertDetailCommand->ExecuteNonQuery();
+                int stopOrder = Convert::ToInt32(stopOrderTextBox->Text);
+                int stationID = Convert::ToInt32(stationComboBox->SelectedValue);
+                String^ routeName = routeNameTextBox->Text;
+                DateTime arrivalTime = arrivalDatePicker->Value;
+                DateTime departureTime = departureDatePicker->Value;
+
+                conn->Open();
+                String^ query = "INSERT INTO RouteDetails (RouteID, StationID, ArrivalTime, DepartureTime, StopOrder) "
+                               "VALUES ((SELECT RouteID FROM Routes WHERE RouteName = @RouteName), @StationID, @ArrivalTime, @DepartureTime, @StopOrder)";
+                SqlCommand^ cmd = gcnew SqlCommand(query, conn);
+                cmd->Parameters->AddWithValue("@RouteName", routeName);
+                cmd->Parameters->AddWithValue("@StationID", stationID);
+                cmd->Parameters->AddWithValue("@ArrivalTime", arrivalTime);
+                cmd->Parameters->AddWithValue("@DepartureTime", departureTime);
+                cmd->Parameters->AddWithValue("@StopOrder", stopOrder);
+                cmd->ExecuteNonQuery();
+
                 MessageBox::Show("Route detail added successfully.", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                LoadRouteDetails();
             }
-            catch (SqlException^ ex)
+            catch (Exception^ ex)
             {
-                if (ex->Number == 2627) // 2627 is the error code for UNIQUE constraint violation in SQL Server
-                {
-                    MessageBox::Show("This route-station combination already exists. Please check the route and station details.");
-                }
-                else
-                {
-                    // Handle other SQL exceptions if needed
-                    MessageBox::Show("An error occurred: " + ex->Message);
-                }
+                MessageBox::Show("Error: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
             }
-
-            conn->Close();
-            LoadRouteDetails(); // Reload route details after adding a new entry
+            finally
+            {
+                conn->Close();
+            }
         }
-
-
-
-
-
 
         void DeleteRouteDetailButton_Click(System::Object^ sender, System::EventArgs^ e)
         {
-            if (routeDetailsDataGridView->SelectedRows->Count > 0)
-            {
-                int selectedRowIndex = routeDetailsDataGridView->SelectedRows[0]->Index;
-                int routeDetailID = Convert::ToInt32(routeDetailsDataGridView->Rows[selectedRowIndex]->Cells["RouteDetailID"]->Value);
-
-                conn = gcnew SqlConnection("Server=DESKTOP-NEII4G1;Database=TrainManagementSystem;Trusted_Connection=True;");
-                conn->Open();
-
-                // Get the RouteID for the selected RouteDetail
-                String^ getRouteQuery = "SELECT RouteID FROM RouteDetails WHERE RouteDetailID = @RouteDetailID";
-                SqlCommand^ getRouteCommand = gcnew SqlCommand(getRouteQuery, conn);
-                getRouteCommand->Parameters->AddWithValue("@RouteDetailID", routeDetailID);
-                SqlDataReader^ reader = getRouteCommand->ExecuteReader();
-
-                int routeID = -1;
-
-                if (reader->HasRows)
-                {
-                    reader->Read();
-                    routeID = reader->GetInt32(0); // Get the RouteID
-                }
-
-                reader->Close();
-
-                // Delete the selected RouteDetail
-                String^ deleteRouteDetailQuery = "DELETE FROM RouteDetails WHERE RouteDetailID = @RouteDetailID";
-                SqlCommand^ deleteRouteDetailCommand = gcnew SqlCommand(deleteRouteDetailQuery, conn);
-                deleteRouteDetailCommand->Parameters->AddWithValue("@RouteDetailID", routeDetailID);
-                deleteRouteDetailCommand->ExecuteNonQuery();
-
-                // Check if there are any remaining RouteDetails for this route
-                String^ checkRouteDetailsQuery = "SELECT COUNT(*) FROM RouteDetails WHERE RouteID = @RouteID";
-                SqlCommand^ checkRouteDetailsCommand = gcnew SqlCommand(checkRouteDetailsQuery, conn);
-                checkRouteDetailsCommand->Parameters->AddWithValue("@RouteID", routeID);
-                int remainingDetails = Convert::ToInt32(checkRouteDetailsCommand->ExecuteScalar());
-
-                // If there are no remaining RouteDetails, delete the route from the Routes table
-                if (remainingDetails == 0)
-                {
-                    String^ deleteRouteQuery = "DELETE FROM Routes WHERE RouteID = @RouteID";
-                    SqlCommand^ deleteRouteCommand = gcnew SqlCommand(deleteRouteQuery, conn);
-                    deleteRouteCommand->Parameters->AddWithValue("@RouteID", routeID);
-                    deleteRouteCommand->ExecuteNonQuery();
-                }
-
-                conn->Close();
-
-                LoadRouteDetails(); // Reload route details after deletion
-                MessageBox::Show("Route detail deleted successfully.", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-            }
-            else
+            if (routeDetailsDataGridView->SelectedRows->Count == 0)
             {
                 MessageBox::Show("Please select a route detail to delete.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+                return;
+            }
+
+            try
+            {
+                int routeDetailID = Convert::ToInt32(routeDetailsDataGridView->SelectedRows[0]->Cells["RouteDetailID"]->Value);
+                conn->Open();
+                String^ query = "DELETE FROM RouteDetails WHERE RouteDetailID = @RouteDetailID";
+                SqlCommand^ cmd = gcnew SqlCommand(query, conn);
+                cmd->Parameters->AddWithValue("@RouteDetailID", routeDetailID);
+                cmd->ExecuteNonQuery();
+
+                MessageBox::Show("Route detail deleted successfully.", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                LoadRouteDetails();
+            }
+            catch (Exception^ ex)
+            {
+                MessageBox::Show("Error: " + ex->Message, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+            }
+            finally
+            {
+                conn->Close();
             }
         }
-
     };
 }
